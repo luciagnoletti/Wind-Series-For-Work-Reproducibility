@@ -87,7 +87,7 @@ series provided in the `Wind Files` directory.
 | 6 m/s | `TurbSim_6ms_1h_005dt.hh` | `IEA-15-240-RWT-Monopile-1day_6mst.npz` |
 | 8 m/s | `TurbSim_8ms_1h_005dt.hh` | `IEA-15-240-RWT-Monopile-1day_8ms.npz` |
 | 10 m/s | `TurbSim_10ms_1h_005dt.hh` | `IEA-15-240-RWT-Monopile-1day_10ms.npz` |
-| 12 m/s | `TurbSim_12ms_1h_005dt.hh` | `IEA-15-240-RWT-Monopile-1day_10ms.npz` |
+| 12 m/s | `TurbSim_12ms_1h_005dt.hh` | `IEA-15-240-RWT-Monopile-1day_12ms.npz` |
 
 The same wind-speed realization was supplied to OpenFAST, the quasi-steady
 power-curve formulation, and the reduced-order model. This allows direct
