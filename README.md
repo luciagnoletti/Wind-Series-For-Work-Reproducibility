@@ -67,7 +67,7 @@ The extracted OpenFAST results can be loaded using:
 ```python
 import numpy as np
 
-data = np.load("OpenFAST_8ms_1h_005dt.npz")
+data = np.load("IEA-15-240-RWT-Monopile-1day_8ms.npz")
 
 time = data["time"]                       # s
 wind_speed = data["wind_speed"]           # m/s
