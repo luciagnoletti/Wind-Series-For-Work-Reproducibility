@@ -102,8 +102,8 @@ sample-by-sample comparison of their wind-to-power responses.
 import numpy as np
 from openfast_toolbox.io import FASTOutputFile
 
-input_file = "IEA-15-240-RWT-Monopile-8ms.outb"
-output_file = "OpenFAST_8ms_1h_005dt.npz"
+input_file = "IEA-15-240-RWT-Monopile-1h_6ms_005dt.outb"
+output_file = "IEA-15-240-RWT-Monopile-1h_6ms_005dt.npz"
 
 df = FASTOutputFile(input_file).toDataFrame()
 
