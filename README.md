@@ -90,3 +90,36 @@ series provided in the `Wind Files` directory.
 The same wind-speed realization was supplied to OpenFAST, the quasi-steady
 power-curve formulation, and the reduced-order model. This allows direct
 sample-by-sample comparison of their wind-to-power responses.
+
+### Process to create `.npz` files
+
+```python
+import numpy as np
+from openfast_toolbox.io import FASTOutputFile
+
+input_file = "IEA-15-240-RWT-Monopile-8ms.outb"
+output_file = "OpenFAST_8ms_1h_005dt.npz"
+
+df = FASTOutputFile(input_file).toDataFrame()
+
+np.savez_compressed(
+    output_file,
+    time=df["Time_[s]"].to_numpy(),
+    wind_speed=df["Wind1VelX_[m/s]"].to_numpy(),
+    rotor_speed=df["RotSpeed_[rpm]"].to_numpy(),
+    generator_power=(
+        df["GenPwr_[kW]"].to_numpy() / 1000.0
+    ),
+    generator_torque=df["GenTq_[kN-m]"].to_numpy(),
+)
+```
+
+The OpenFAST channels were extracted using `FASTOutputFile` from the
+`openfast_toolbox` Python package. The selected arrays were stored using
+`numpy.savez_compressed`, which applies lossless compression. Therefore,
+compression does not introduce averaging, filtering, downsampling, or
+numerical approximation beyond the original data type stored in the
+OpenFAST output.
+
+The extracted datasets retain the OpenFAST output sampling interval of
+0.05 s, corresponding to a sampling frequency of 20 Hz.
