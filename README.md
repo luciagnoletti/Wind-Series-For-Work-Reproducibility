@@ -46,11 +46,14 @@ OpenFAST binary-output reader.
 
 ### Currently available dataset
 
-The repository currently includes the following 24-hour OpenFAST dataset:
+The repository currently includes the following 1-hour OpenFAST dataset:
 
 | File | Duration | Sampling interval | Samples |
 |---|---:|---:|---:|
-| `IEA-15-240-RWT-Monopile-1day_8ms.npz` | 24 h | 0.05 s | 1,728,001 |
+| `IEA-15-240-RWT-Monopile-1h_6ms_005dt.npz` | 24 h | 0.05 s | 1,728,001 |
+| `IEA-15-240-RWT-Monopile-1h_8ms_005dt.npz` | 24 h | 0.05 s | 1,728,001 |
+| `IEA-15-240-RWT-Monopile-1h_10ms_005dt.npz` | 24 h | 0.05 s | 1,728,001 |
+| `IEA-15-240-RWT-Monopile-1h_12ms_005dt.npz` | 24 h | 0.05 s | 1,728,001 |
 
 The archive contains the following arrays:
 
@@ -60,7 +63,7 @@ The archive contains the following arrays:
 | `wind_ms` | Longitudinal wind speed | m/s | `float32` |
 | `power_MW` | OpenFAST generator electrical power | MW | `float32` |
 
-### Loading the 24-hour dataset
+### Loading the 1-hour dataset
 
 ```python
 import numpy as np
