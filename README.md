@@ -76,10 +76,6 @@ generator_power = data["generator_power"] # MW
 generator_torque = data["generator_torque"] # kN·m
 
 
-### Relação com as séries de vento
-
-Esta parte é particularmente importante para demonstrar a igualdade das entradas:
-
 ```markdown
 ### Relationship with the wind-input files
 
