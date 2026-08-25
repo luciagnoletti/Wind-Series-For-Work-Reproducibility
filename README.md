@@ -74,7 +74,7 @@ wind_speed = data["wind_speed"]           # m/s
 rotor_speed = data["rotor_speed"]         # rpm
 generator_power = data["generator_power"] # MW
 generator_torque = data["generator_torque"] # kN·m
-
+```
 
 ```markdown
 ### Relationship with the wind-input files
