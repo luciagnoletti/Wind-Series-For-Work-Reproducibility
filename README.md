@@ -75,8 +75,6 @@ rotor_speed = data["rotor_speed"]         # rpm
 generator_power = data["generator_power"] # MW
 generator_torque = data["generator_torque"] # kN·m
 ```
-
-```markdown
 ### Relationship with the wind-input files
 
 Each extracted OpenFAST dataset corresponds to one of the hub-height wind
