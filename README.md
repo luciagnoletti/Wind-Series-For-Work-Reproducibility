@@ -32,49 +32,51 @@ hub-height wind-speed realization.
 
 ## Extracted OpenFAST output files
 
-The `.npz` files provided in this repository contain selected time-series
-channels extracted from the corresponding OpenFAST binary output files
-(`.outb`).
+The `.npz` files in the `OpenFAST_Files` directory contain selected
+time-series channels extracted from the corresponding OpenFAST binary
+output files (`.outb`).
 
-The original `.outb` files contain a large number of output channels and can
-require substantial storage space. Therefore, only the variables required
-for the reduced-order-model validation were exported to compressed NumPy
-archives.
+The original OpenFAST binary files can require substantial storage space.
+Therefore, the variables required for the wind-to-power analysis were
+exported as compressed NumPy archives.
 
-The `.npz` files are derived datasets and are not native OpenFAST input or
-output files. They can be loaded directly in Python using NumPy, without
-requiring the complete OpenFAST binary-output reader.
+These `.npz` archives are derived datasets and are not native OpenFAST
+files. They can be loaded directly using NumPy without requiring an
+OpenFAST binary-output reader.
 
-### Available channels
+### Currently available dataset
 
-Each `.npz` archive contains the following arrays:
+The repository currently includes the following 24-hour OpenFAST dataset:
 
-| Array | Description | Unit |
-|---|---|---:|
-| `time` | OpenFAST simulation time | s |
-| `wind_speed` | Longitudinal wind speed reported by `Wind1VelX` | m/s |
-| `rotor_speed` | Rotor rotational speed reported by `RotSpeed` | rpm |
-| `generator_power` | Electrical generator power reported by `GenPwr` | MW |
-| `generator_torque` | Generator torque reported by `GenTq` | kN·m |
+| File | Duration | Sampling interval | Samples |
+|---|---:|---:|---:|
+| `IEA-15-240-RWT-Monopile-1day_8ms.npz` | 24 h | 0.05 s | 1,728,001 |
 
-The generator-power values were converted from kW, as reported by OpenFAST,
-to MW before being stored in the archives.
+The archive contains the following arrays:
 
-### Loading the data in Python
+| Array | Description | Unit | Data type |
+|---|---|---:|---:|
+| `time_s` | OpenFAST simulation time | s | `float64` |
+| `wind_ms` | Longitudinal wind speed | m/s | `float32` |
+| `power_MW` | OpenFAST generator electrical power | MW | `float32` |
 
-The extracted OpenFAST results can be loaded using:
+### Loading the 24-hour dataset
 
 ```python
 import numpy as np
 
-data = np.load("IEA-15-240-RWT-Monopile-1day_8ms.npz")
+data = np.load(
+    "OpenFAST_Files/IEA-15-240-RWT-Monopile-1day_8ms.npz"
+)
 
-time = data["time"]                       # s
-wind_speed = data["wind_speed"]           # m/s
-rotor_speed = data["rotor_speed"]         # rpm
-generator_power = data["generator_power"] # MW
-generator_torque = data["generator_torque"] # kN·m
+time = data["time_s"]       # s
+wind_speed = data["wind_ms"]  # m/s
+generator_power = data["power_MW"]  # MW
+
+print(data.files)
+print(time.shape, wind_speed.shape, generator_power.shape)
 ```
+
 ### Relationship with the wind-input files
 
 Each extracted OpenFAST dataset corresponds to one of the hub-height wind
@@ -82,10 +84,10 @@ series provided in the `Wind Files` directory.
 
 | Mean wind speed | Wind input | Extracted OpenFAST output |
 |---:|---|---|
-| 6 m/s | `TurbSim_6ms_1h_005dt.hh` | `IEA-15-240-RWT-Monopile-1day_6mst.npz` |
-| 8 m/s | `TurbSim_8ms_1h_005dt.hh` | `IEA-15-240-RWT-Monopile-1day_8ms.npz` |
-| 10 m/s | `TurbSim_10ms_1h_005dt.hh` | `IEA-15-240-RWT-Monopile-1day_10ms.npz` |
-| 12 m/s | `TurbSim_12ms_1h_005dt.hh` | `IEA-15-240-RWT-Monopile-1day_12ms.npz` |
+| 6 m/s | `TurbSim_6ms_1h_005dt.hh` | `IEA-15-240-RWT-Monopile-1h_6ms_005dt.npz` |
+| 8 m/s | `TurbSim_8ms_1h_005dt.hh` | `IEA-15-240-RWT-Monopile-1h_8ms_005dt.npz` |
+| 10 m/s | `TurbSim_10ms_1h_005dt.hh` | `IEA-15-240-RWT-Monopile-1h_10ms_005dt.npz` |
+| 12 m/s | `TurbSim_12ms_1h_005dt.hh` | `IEA-15-240-RWT-Monopile-1h_12ms_005dt.npz` |
 
 The same wind-speed realization was supplied to OpenFAST, the quasi-steady
 power-curve formulation, and the reduced-order model. This allows direct
@@ -104,13 +106,11 @@ df = FASTOutputFile(input_file).toDataFrame()
 
 np.savez_compressed(
     output_file,
-    time=df["Time_[s]"].to_numpy(),
-    wind_speed=df["Wind1VelX_[m/s]"].to_numpy(),
-    rotor_speed=df["RotSpeed_[rpm]"].to_numpy(),
-    generator_power=(
-        df["GenPwr_[kW]"].to_numpy() / 1000.0
-    ),
-    generator_torque=df["GenTq_[kN-m]"].to_numpy(),
+    time_s=df["Time_[s]"].to_numpy(),
+    wind_ms=df["Wind1VelX_[m/s]"].to_numpy(),
+    rotor_speed_rpm=df["RotSpeed_[rpm]"].to_numpy(),
+    generator_power_MW=df["GenPwr_[kW]"].to_numpy() / 1000.0,
+    generator_torque_kNm=df["GenTq_[kN-m]"].to_numpy(),
 )
 ```
 
